@@ -224,4 +224,21 @@ public class Arbol {
         }
         return minValue;
     }
+
+    public Nodo construirDesdeInorden(int[] inorden) {
+        this.raiz = construirDesdeInordenRec(inorden, 0, inorden.length - 1);
+        return this.raiz;
+    }
+
+    private Nodo construirDesdeInordenRec(int[] valores, int inicio, int fin) {
+        if (inicio > fin) {
+            return null;
+        }
+        int medio = (inicio + fin) / 2;
+        Nodo nodo = new Nodo(valores[medio]);
+        nodo.setIzquierdo(construirDesdeInordenRec(valores, inicio, medio - 1));
+        nodo.setDerecho(construirDesdeInordenRec(valores, medio + 1, fin));
+        nodo.setAlturaNodo(Math.max(alturaNodo(nodo.getIzquierdo()), alturaNodo(nodo.getDerecho())) + 1);
+        return nodo;
+    }
 }
