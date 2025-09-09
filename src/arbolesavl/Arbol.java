@@ -67,7 +67,7 @@ public class Arbol {
             }
             System.out.println();
         }
-    }
+    }   
 
     public int factorEquilibrio(Nodo nodo) { // balance = altura(izq) - altura(der)
         if (nodo == null) {
@@ -235,6 +235,12 @@ public class Arbol {
         }
         nodo.setIzq(construirDesdePreIn(preOrden, inOrden, limiteIzq, k - 1)); //Constructores para subárbol izquierdo usando la izquierda de K en inOrden
         nodo.setDer(construirDesdePreIn(preOrden, inOrden, k + 1, limiteDer)); //Constructores para subárbol derecho usando la derecha de K en inOrden
+        /*
+        K toma el valor de la posicion de la raiz en preOrden (1) => K = 1, para marcar el limite entre los subárboles
+        izquierdo y derecho, se ubica a k = 1 = A en el recorrido inOrden, una vez ubicado, todo lo que esta a la izquierda
+        de A será el subárbol izquierdo y asi respectivamente con el derecho, entonces esto nos lleva a marcar un rango en el 
+        inOrden en donde subárbol izquierdo va desde [LimiteIzq , K - 1] y el subárbol derecho va desde [K + 1 , LimiteDer] 
+        */
 
         return nodo;
     }
