@@ -48,14 +48,14 @@ public class Arbol {
     }
 
     public void TreePrinter() {
-        int h = alturaArbol(this.raiz);   // o "altura(this.raiz)" si así se llama en tu clase
+        int h = alturaArbol(this.raiz);  
         int col = getcol(h);
         int[][] M = new int[h][col];
         printTree(M, this.raiz, col / 2, 0, h);
 
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < col; j++) {
-                if (M[i][j] == 0) { // 0 = celda vacía (si algún día tienes dato=0, cámbialo por otra marca)
+                if (M[i][j] == 0) { 
                     System.out.print("  ");
                 } else {
                     if (M[i][j] >= 'A' && M[i][j] <= 'Z') {
@@ -65,7 +65,7 @@ public class Arbol {
                     }
                 }
             }
-            System.out.println(); // <-- salto de línea por fila
+            System.out.println();
         }
     }
 
@@ -215,26 +215,26 @@ public class Arbol {
     private int prePos = 0;  // posición actual en el preorden
 
     public void construirDesdePreIn(String[] preOrden, String[] inOrden) {
-        prePos = 0;
+        prePos = 0; //Empezar a leer desde el primer elemento del preOrden
         this.raiz = construirDesdePreIn(preOrden, inOrden, 0, inOrden.length - 1);
     }
 
     public Nodo construirDesdePreIn(String[] preOrden, String[] inOrden, int limiteIzq, int limiteDer) {
         if (limiteIzq > limiteDer) {
-            return null;
+            return null; //Si lo encontramos vacio, nos dice que no hay nodo 
         }
-        char raizVal = preOrden[prePos++].charAt(0);
-        Nodo nodo = new Nodo(raizVal); // guardado como int (ASCII)
-        int k = -1;    // buscar la raíz en el inorden
+        char raizSubarbol = preOrden[prePos].charAt(0); //Se guarda la raiz del sub arbol que estamos construyendo
+        prePos = prePos + 1; //Avanzar el p en preOrden 
+        Nodo nodo = new Nodo(raizSubarbol); 
+        int k = -1; //si K sigue siento -1 al final del recorrido, el valor de la raiz no pudo ser encontrado en inOrden
         for (int i = limiteIzq; i <= limiteDer; i++) {
-            if (inOrden[i].charAt(0) == raizVal) {
-                k = i;
+            if (inOrden[i].charAt(0) == raizSubarbol) { // buscar la raíz en el inorden
+                k = i; //si es igual a i significa que si pudimos encontrar el valor de la raiz en inOrden
                 break;
             }
         }
-        // construir recursivamente
-        nodo.setIzq(construirDesdePreIn(preOrden, inOrden, limiteIzq, k - 1));
-        nodo.setDer(construirDesdePreIn(preOrden, inOrden, k + 1, limiteDer));
+        nodo.setIzq(construirDesdePreIn(preOrden, inOrden, limiteIzq, k - 1)); //Constructores para subárbol izquierdo usando la izquierda de K en inOrden
+        nodo.setDer(construirDesdePreIn(preOrden, inOrden, k + 1, limiteDer)); //Constructores para subárbol derecho usando la derecha de K en inOrden
 
         return nodo;
     }
